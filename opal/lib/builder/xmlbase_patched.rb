@@ -1,12 +1,19 @@
-class Builder::XmlBase
-  # This seemed to be causing problems
-  XmlBase.cache_method_calls = false
+class Builder::XmlBase  
+  def method_missing(sym, *args, &block)
+    # Omitting cache_method_calls because it causes problems
+    
+    # Code in tag cares whether things are actually symbols and method names should be, so "create" them
+    tag!(BuilderSymbol.new(sym), *args, &block)
+  end
   
-  def non_string_mutating_original_tag!(sym, *args, &block)
+  def tag!(sym, *args, &block)
     text = nil
     attrs = nil
-    sym = "#{sym}:#{args.shift}" if args.first.kind_of?(::Symbol)
-    sym = sym.to_sym unless sym.class == ::Symbol
+    sym = "#{sym}:#{args.shift}" if args.first.kind_of?(::BuilderSymbol)
+    unless sym.class == ::BuilderSymbol
+      riase "not sure how to convert sym, which is class #{sym.class} and value #{sym} to a symbol"
+    end
+    sym = sym.to_sym unless sym.class == ::BuilderSymbol
     args.each do |arg|
       case arg
       when ::Hash
@@ -48,16 +55,7 @@ class Builder::XmlBase
       _newline
     end
     @target
-  end
-  
-  def tag!(sym, *args, &block)
-    # Opal splat issues
-    if args.length == 0
-      non_string_mutating_original_tag! sym, *args, &block
-    else
-      non_string_mutating_original_tag! sym, args, &block
-    end    
-  end
+  end 
 end
 
 class BuilderMutableString  
@@ -65,7 +63,7 @@ class BuilderMutableString
     @state = str
   end
   
-  def <<(text)    
+  def <<(text)
     @state += text    
   end
   
@@ -87,6 +85,25 @@ class BuilderMutableString
   
   def unpack(format)
     @state.unpack format
+  end
+  
+  def ==(other_str)
+    @state == other_str
+  end
+end
+
+# In Opal, symbols and strings are the same, builder differentiates
+class BuilderSymbol
+  def initialize(str)
+    @symbol = str
+  end
+  
+  def to_s
+    @symbol
+  end
+  
+  def to_str
+    @symbol
   end
 end
 
