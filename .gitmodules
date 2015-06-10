@@ -1,3 +1,6 @@
 [submodule "builder"]
 	path = builder
 	url = https://github.com/jimweirich/builder.git
+[submodule "opal-rspec"]
+	path = opal-rspec
+	url = https://github.com/wied03/opal-rspec.git
