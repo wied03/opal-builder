@@ -55,7 +55,12 @@ class Builder::XmlBase
       _newline
     end
     @target
-  end 
+  end
+  
+  # Not supporting escaping, but do need to ensure we're using mutable strings
+  def _escape(text)
+    text.is_a?(BuilderMutableString) ? text : BuilderMutableString.new(text)
+  end
 end
 
 class BuilderMutableString  
