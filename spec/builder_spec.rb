@@ -1,6 +1,5 @@
 require 'builder'
 # TODO: Fold these into a single require
-require 'builder/xchar_patched'
 require 'builder/xmlbase_patched'
 
 describe Builder do
@@ -11,5 +10,9 @@ describe Builder do
     }
     
     it { is_expected.to eq '<person><name>Jim</name><phone>555-1234</phone></person>' }
+  end
+  
+  context 'declare' do
+    pending 'write it'
   end
 end
