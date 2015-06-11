@@ -9,6 +9,7 @@ Gem::Specification.new do |s|
   s.email        = 'brady@bswtechconsulting.com'
   s.summary      = 'Builder for Opal'
   s.description  = 'Opal compatible builder library'
+  s.homepage     = 'https://github.com/wied03/opal-builder'
 
   s.files = `git ls-files`.split("\n") + Dir.glob('builder/lib/**/*.rb')
 
