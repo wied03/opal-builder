@@ -9,6 +9,7 @@ module OpalBuilderTest
     
     def <<(text)
       @stored_output += text
+      self
     end
   end    
 end
