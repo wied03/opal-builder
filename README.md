@@ -6,7 +6,7 @@ An attempt at making the builder XML gem work with Opal
 
 ## Usage
 
-Add `opal-builder` to your Gemfile (once this is published to Rubygems, TBD):
+Add `opal-builder` to your Gemfile:
 
 ```ruby
 gem 'opal-builder'
