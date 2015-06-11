@@ -1,4 +1,5 @@
 require 'builder'
+
 module OpalBuilderTest
   class CustomOutput
     attr_reader :stored_output
