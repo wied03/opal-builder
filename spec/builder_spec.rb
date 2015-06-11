@@ -54,11 +54,19 @@ describe Builder::XmlMarkup do
       end
       
       context 'gt' do
-        pending 'write it'
+        let(:input) { ['This>That', 'Here&gt;There' ]}
+        
+        it { 
+          is_expected.to eq '<sample escaped="This&gt;That" unescaped="Here&gt;There"/>'
+        }        
       end
       
       context 'apos' do
-        pending 'write it'
+        let(:input) { ["This'That", 'Here&apos;There' ]}
+        
+        it { 
+          is_expected.to eq '<sample escaped="This&apos;That" unescaped="Here&apos;There"/>'
+        }  
       end
     end   
     

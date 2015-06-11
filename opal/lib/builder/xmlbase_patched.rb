@@ -86,8 +86,12 @@ class BuilderMutableString
     @state.nil?
   end
   
+  # Unpack doesn't exist in Opal
   def to_xs
-    gsub(/&(?!\w+;)/, '&amp;').gsub(/</, '&lt;')
+    gsub(/&(?!\w+;)/, '&amp;')
+    .gsub(/</, '&lt;')
+    .gsub(/>/, '&gt;')
+    .gsub(/'/, '&apos;')
   end
   
   def gsub(regex, replace)
