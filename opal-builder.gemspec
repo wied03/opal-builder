@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require 'rake'
 require File.expand_path('../builder/lib/builder/version', __FILE__)
 
 Gem::Specification.new do |s|
@@ -10,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary      = 'Builder for Opal'
   s.description  = 'Opal compatible builder library'
 
-  s.files = `git ls-files`.split("\n") + FileList['builder/**/*.rb']
+  s.files = `git ls-files`.split("\n") + Dir.glob('builder/lib/**/*.rb')
 
   s.require_paths  = ['lib']
 
