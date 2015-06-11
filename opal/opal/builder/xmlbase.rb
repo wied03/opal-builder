@@ -1,4 +1,7 @@
-class Builder::XmlBase  
+require 'opal/builder/builder_mutable_string'
+require 'opal/builder/builder_symbol'
+
+class Builder::XmlBase
   def method_missing(sym, *args, &block)
     # Omitting cache_method_calls because it causes problems
     
@@ -61,86 +64,5 @@ class Builder::XmlBase
   def _escape(text)
     ensure_mutable = text.is_a?(BuilderMutableString) ? text : BuilderMutableString.new(text)
     ensure_mutable.to_xs
-  end
-end
-
-class BuilderMutableString  
-  def initialize(str)
-    @state = str
-  end
-  
-  def <<(text)
-    @state += text
-    self
-  end
-  
-  def to_s
-    @state
-  end
-  
-  def to_str
-    @state
-  end
-  
-  def nil?
-    @state.nil?
-  end
-  
-  # Unpack doesn't exist in Opal
-  def to_xs
-    gsub(/&(?!\w+;)/, '&amp;')
-    .gsub(/</, '&lt;')
-    .gsub(/>/, '&gt;')
-    .gsub(/'/, '&apos;')
-  end
-  
-  def gsub(regex, replace)
-    @state = @state.gsub regex,replace
-    self
-  end
-
-  def ==(other_str)
-    @state == other_str
-  end
-end
-
-# In Opal, symbols and strings are the same, builder differentiates
-class BuilderSymbol
-  def initialize(str)
-    @symbol = str
-  end
-  
-  def to_s
-    @symbol
-  end
-  
-  def to_str
-    @symbol
-  end
-end
-
-class Builder::XmlMarkup
-  # Try and avoid a bunch of string mutation changes
-  def initialize(options={})
-    indent = options[:indent] || 0
-    margin = options[:margin] || 0
-    @quote = (options[:quote] == :single) ? "'" : '"'
-    @explicit_nil_handling = options[:explicit_nil_handling]
-    super(indent, margin)
-    @target = BuilderMutableString.new(options[:target] || "")
-  end
-  
-  # all strings will be symbols, so we have to change the case statement
-  def _attr_value(value)
-    case value
-    when ::BuilderSymbol
-      value.to_s
-    else
-      _escape_attribute(value.to_s)
-    end
-  end
-  
-  def declare!(inst, *args, &block)
-    ::Kernel.raise 'declare! is not currently supported on Opal because symbols cannot be detected easily.'
   end
 end
