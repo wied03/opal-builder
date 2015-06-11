@@ -27,7 +27,7 @@ class Builder::XmlBase
         text ||= BuilderMutableString.new ''
         text << arg.to_s
       end
-    end
+    end   
     if block
       unless text.nil?
         ::Kernel::raise ::ArgumentError,
@@ -59,7 +59,8 @@ class Builder::XmlBase
   
   # Not supporting escaping, but do need to ensure we're using mutable strings
   def _escape(text)
-    text.is_a?(BuilderMutableString) ? text : BuilderMutableString.new(text)
+    ensure_mutable = text.is_a?(BuilderMutableString) ? text : BuilderMutableString.new(text)
+    ensure_mutable.to_xs
   end
 end
 
@@ -69,7 +70,8 @@ class BuilderMutableString
   end
   
   def <<(text)
-    @state += text    
+    @state += text
+    self
   end
   
   def to_s
@@ -85,13 +87,14 @@ class BuilderMutableString
   end
   
   def to_xs
-    @state
+    gsub /&(?!amp;)/, '&amp;'
   end
   
-  def unpack(format)
-    @state.unpack format
+  def gsub(regex, replace)
+    @state = @state.gsub regex,replace
+    self
   end
-  
+
   def ==(other_str)
     @state == other_str
   end
@@ -123,5 +126,13 @@ class Builder::XmlMarkup
     @target = BuilderMutableString.new(options[:target] || "")
   end
   
-    
+  # all strings will be symbols, so we have to change the case statement
+  def _attr_value(value)
+    case value
+    when ::BuilderSymbol
+      value.to_s
+    else
+      _escape_attribute(value.to_s)
+    end
+  end
 end

@@ -25,10 +25,73 @@ describe Builder::XmlMarkup do
     }
   end
   
-  context 'escaped' do
-    pending 'write it'
+  context 'attributes' do
+    context 'normal' do
+      subject {
+        builder.sample escaped: 'This and That', unescaped: 'Here and There'
+      }
+    
+      it { 
+        is_expected.to eq '<sample escaped="This and That" unescaped="Here and There"/>'
+      }
+    end
+    
+    context 'xml entities' do
+      context 'amp' do
+        subject {
+          builder.sample escaped: 'This&That', unescaped: 'Here&amp;There'
+        }
+    
+        it { 
+          is_expected.to eq '<sample escaped="This&amp;That" unescaped="Here&amp;There"/>'
+        }
+      end
+      
+      context 'lt' do
+        pending 'write it'
+      end
+      
+      context 'gt' do
+        pending 'write it'
+      end
+      
+      context 'apos' do
+        pending 'write it'
+      end
+    end   
+    
+    context 'quotes' do
+      subject {
+        builder.sample escaped: 'This"That'
+      }
+    
+      it { 
+        is_expected.to eq '<sample escaped="This&quot;That"/>'
+      }
+    end
+    
+    context 'line feed' do
+      subject {
+        builder.sample escaped: "This\nThat"
+      }
+    
+      it { 
+        is_expected.to eq '<sample escaped="This&#10;That"/>'
+      }
+    end
+    
+    context 'carriage return' do
+      subject {
+        builder.sample escaped: "This\rThat"
+      }
+    
+      it { 
+        is_expected.to eq '<sample escaped="This&#13;That"/>'
+      }
+    end
   end
   
+  # TODO: more when symbol logic there
   context 'declare' do
     pending 'write it'
   end
