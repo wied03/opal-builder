@@ -8,8 +8,14 @@ module OpalBuilderTest
       @stored_output = ''
     end
     
-    def <<(text)
+    # This is how real Opal IO does it, fleshed out a size problem this way
+    def write(text)
       @stored_output += text
+      text.size
+    end
+    
+    def <<(text)
+      write text
       self
     end
   end    

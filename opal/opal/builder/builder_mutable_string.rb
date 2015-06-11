@@ -36,4 +36,8 @@ class BuilderMutableString
   def ==(other_str)
     @state == other_str
   end
+  
+  def size
+    @state.size
+  end
 end
