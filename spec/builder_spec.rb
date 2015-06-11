@@ -1,26 +1,5 @@
 require 'builder'
 
-module OpalBuilderTest
-  class CustomOutput
-    attr_reader :stored_output
-    
-    def initialize
-      @stored_output = ''
-    end
-    
-    # This is how real Opal IO does it, fleshed out a size problem this way
-    def write(text)
-      @stored_output += text
-      text.size
-    end
-    
-    def <<(text)
-      write text
-      self
-    end
-  end    
-end
-
 describe Builder::XmlMarkup do
   let(:options) { {} }
   let(:target) { nil }
@@ -33,8 +12,8 @@ describe Builder::XmlMarkup do
   RSpec::Matchers.define :produce_xml do |expected_xml|
     def get_xml(actual)
       if target
-        raise "Expected subject to be a CustomOutput object but was a #{actual.class}" unless actual.is_a? ::OpalBuilderTest::CustomOutput
-        actual.stored_output.to_s
+        raise "Expected subject to be a #{target.class} object but was a #{actual.class}" unless actual.class == target.class
+        actual.string
       else
         # Deal with string mutation class
         actual.to_s
@@ -177,9 +156,9 @@ describe Builder::XmlMarkup do
     include_context :examples
   end
   
-  context 'custom output' do    
-    let(:target) { ::OpalBuilderTest::CustomOutput.new }
+  context 'StringIO output' do    
+    let(:target) { StringIO.new }
     
     include_context :examples
-  end
+  end 
 end
