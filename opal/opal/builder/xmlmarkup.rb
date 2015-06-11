@@ -9,7 +9,7 @@ class Builder::XmlMarkup
     @quote = (options[:quote] == :single) ? "'" : '"'
     @explicit_nil_handling = options[:explicit_nil_handling]
     super(indent, margin)
-    @target = BuilderMutableString.new(options[:target] || "")
+    @target = options[:target] || BuilderMutableString.new("")    
   end
   
   # all strings will be symbols, so we have to change the case statement
