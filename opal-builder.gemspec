@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+require 'rake'
 require File.expand_path('../builder/lib/builder/version', __FILE__)
 
 Gem::Specification.new do |s|
@@ -14,5 +15,5 @@ Gem::Specification.new do |s|
   s.require_paths  = ['lib']
 
   s.add_dependency 'opal', ['>= 0.7.0', '< 0.9']
-  s.add_development_dependency 'rake', '~> 10'
+  s.add_development_dependency 'rake'
 end
