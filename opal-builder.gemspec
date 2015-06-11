@@ -1,5 +1,4 @@
 # -*- encoding: utf-8 -*-
-require 'rake'
 require File.expand_path('../builder/lib/builder/version', __FILE__)
 
 Gem::Specification.new do |s|
