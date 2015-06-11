@@ -14,9 +14,6 @@ gem 'opal-builder'
 
 ### Use in your application
 
-To run specs, a rake task can be added which will load all spec files from
-`spec/`:
-
 ```ruby
 require 'builder'
 ```
