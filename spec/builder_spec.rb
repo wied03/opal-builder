@@ -26,10 +26,10 @@ describe Builder::XmlMarkup do
   end
   
   context 'attributes' do
+    subject { builder.sample escaped: input[0], unescaped: input[1] }
+    
     context 'normal' do
-      subject {
-        builder.sample escaped: 'This and That', unescaped: 'Here and There'
-      }
+      let(:input) { ['This and That', 'Here and There' ]}
     
       it { 
         is_expected.to eq '<sample escaped="This and That" unescaped="Here and There"/>'
@@ -38,9 +38,7 @@ describe Builder::XmlMarkup do
     
     context 'xml entities' do
       context 'amp' do
-        subject {
-          builder.sample escaped: 'This&That', unescaped: 'Here&amp;There'
-        }
+        let(:input) { ['This&That', 'Here&amp;There' ]}
     
         it { 
           is_expected.to eq '<sample escaped="This&amp;That" unescaped="Here&amp;There"/>'
@@ -48,7 +46,11 @@ describe Builder::XmlMarkup do
       end
       
       context 'lt' do
-        pending 'write it'
+        let(:input) { ['This<That', 'Here&lt;There' ]}
+        
+        it { 
+          is_expected.to eq '<sample escaped="This&lt;That" unescaped="Here&lt;There"/>'
+        }
       end
       
       context 'gt' do

@@ -87,7 +87,7 @@ class BuilderMutableString
   end
   
   def to_xs
-    gsub /&(?!amp;)/, '&amp;'
+    gsub(/&(?!\w+;)/, '&amp;').gsub(/</, '&lt;')
   end
   
   def gsub(regex, replace)
