@@ -131,7 +131,11 @@ describe Builder::XmlMarkup do
   end
   
   # TODO: more when symbol logic there
-  context 'declare' do
-    pending 'write it'
+  describe 'declare!' do   
+    subject { lambda { builder.declare! :DOCTYPE, :chapter, :SYSTEM, "../dtds/chapter.dtd" } }
+    
+    it { 
+      is_expected.to raise_exception 'declare! is not currently supported on Opal because symbols cannot be detected easily.'
+    }
   end
 end

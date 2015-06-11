@@ -139,4 +139,8 @@ class Builder::XmlMarkup
       _escape_attribute(value.to_s)
     end
   end
+  
+  def declare!(inst, *args, &block)
+    ::Kernel.raise 'declare! is not currently supported on Opal because symbols cannot be detected easily.'
+  end
 end
