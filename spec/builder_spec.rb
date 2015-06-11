@@ -154,9 +154,8 @@ describe Builder::XmlMarkup do
       it { 
         is_expected.to produce_xml '<?xml version="1.0" encoding="UTF-8"?>'"\n"
       }
-    end
-  
-    # TODO: more when symbol logic there
+    end  
+
     describe 'declare!' do   
       subject { lambda { builder.declare! :DOCTYPE, :chapter, :SYSTEM, "../dtds/chapter.dtd" } }
     
