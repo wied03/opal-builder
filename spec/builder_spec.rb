@@ -6,22 +6,29 @@ describe Builder::XmlMarkup do
   let(:options) { {} }
   let(:builder) { Builder::XmlMarkup.new options }
   
+  RSpec::Matchers.define :produce_xml do |expected_xml|
+    match do |actual_xml|
+      # Deal with string mutation
+      actual_xml.to_s == expected_xml
+    end
+    
+    failure_message do |actual_xml|
+      "Expected '#{expected_xml}' but got '#{actual_xml.to_s}'"
+    end
+  end
+  
   context 'basic case' do
     subject { builder.person { |b| b.name("Jim"); b.phone("555-1234") } }    
 
-    it { is_expected.to eq '<person><name>Jim</name><phone>555-1234</phone></person>' }
-  end
+    it { is_expected.to produce_xml '<person><name>Jim</name><phone>555-1234</phone></person>' }
+  end  
   
   context 'indent' do
     let(:options) { {indent: 2}}
-    subject {
-      r = builder.person { |b| b.name("Jim"); b.phone("555-1234") }
-      # for some reason, carriage returns aren't making it otherwise
-      r.to_s
-    }   
+    subject { builder.person { |b| b.name("Jim"); b.phone("555-1234") } }   
     
     it { 
-      is_expected.to eq "<person>\n  <name>Jim</name>\n  <phone>555-1234</phone>\n</person>\n"
+      is_expected.to produce_xml "<person>\n  <name>Jim</name>\n  <phone>555-1234</phone>\n</person>\n"
     }
   end
   
@@ -32,7 +39,7 @@ describe Builder::XmlMarkup do
       let(:input) { ['This and That', 'Here and There' ]}
     
       it { 
-        is_expected.to eq '<sample escaped="This and That" unescaped="Here and There"/>'
+        is_expected.to produce_xml '<sample escaped="This and That" unescaped="Here and There"/>'
       }
     end
     
@@ -41,7 +48,7 @@ describe Builder::XmlMarkup do
         let(:input) { ['This&That', 'Here&amp;There' ]}
     
         it { 
-          is_expected.to eq '<sample escaped="This&amp;That" unescaped="Here&amp;There"/>'
+          is_expected.to produce_xml '<sample escaped="This&amp;That" unescaped="Here&amp;There"/>'
         }
       end
       
@@ -49,7 +56,7 @@ describe Builder::XmlMarkup do
         let(:input) { ['This<That', 'Here&lt;There' ]}
         
         it { 
-          is_expected.to eq '<sample escaped="This&lt;That" unescaped="Here&lt;There"/>'
+          is_expected.to produce_xml '<sample escaped="This&lt;That" unescaped="Here&lt;There"/>'
         }
       end
       
@@ -57,7 +64,7 @@ describe Builder::XmlMarkup do
         let(:input) { ['This>That', 'Here&gt;There' ]}
         
         it { 
-          is_expected.to eq '<sample escaped="This&gt;That" unescaped="Here&gt;There"/>'
+          is_expected.to produce_xml '<sample escaped="This&gt;That" unescaped="Here&gt;There"/>'
         }        
       end
       
@@ -65,7 +72,7 @@ describe Builder::XmlMarkup do
         let(:input) { ["This'That", 'Here&apos;There' ]}
         
         it { 
-          is_expected.to eq '<sample escaped="This&apos;That" unescaped="Here&apos;There"/>'
+          is_expected.to produce_xml '<sample escaped="This&apos;That" unescaped="Here&apos;There"/>'
         }  
       end
     end   
@@ -76,7 +83,7 @@ describe Builder::XmlMarkup do
       }
     
       it { 
-        is_expected.to eq '<sample escaped="This&quot;That"/>'
+        is_expected.to produce_xml '<sample escaped="This&quot;That"/>'
       }
     end
     
@@ -86,7 +93,7 @@ describe Builder::XmlMarkup do
       }
     
       it { 
-        is_expected.to eq '<sample escaped="This&#10;That"/>'
+        is_expected.to produce_xml '<sample escaped="This&#10;That"/>'
       }
     end
     
@@ -96,9 +103,20 @@ describe Builder::XmlMarkup do
       }
     
       it { 
-        is_expected.to eq '<sample escaped="This&#13;That"/>'
+        is_expected.to produce_xml '<sample escaped="This&#13;That"/>'
       }
     end
+  end
+  
+  context 'comment' do
+    # indent required for some reason (see builder source)
+    let(:options) { {indent: 1}}
+    
+    subject { builder.comment! 'This is a comment' }
+    
+    it { 
+      is_expected.to produce_xml "<!-- This is a comment -->\n"
+    }
   end
   
   # TODO: more when symbol logic there
