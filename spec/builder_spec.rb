@@ -24,7 +24,8 @@ describe Builder::XmlMarkup do
   
   RSpec::Matchers.define :produce_xml do |expected_xml|
     def get_xml(actual)
-      if actual.is_a?(::OpalBuilderTest::CustomOutput)
+      if target
+        raise "Expected subject to be a CustomOutput object but was a #{actual.class}" unless actual.is_a? ::OpalBuilderTest::CustomOutput
         actual.stored_output.to_s
       else
         # Deal with string mutation class
