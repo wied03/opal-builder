@@ -32,7 +32,7 @@ describe Builder::XmlMarkup do
     }
   end
   
-  context 'attributes' do
+  describe 'attributes' do
     subject { builder.sample escaped: input[0], unescaped: input[1] }
     
     context 'normal' do
@@ -108,7 +108,7 @@ describe Builder::XmlMarkup do
     end
   end
   
-  context 'comment' do
+  describe '#comment!' do
     # indent required for some reason (see builder source)
     let(:options) { {indent: 1}}
     
@@ -116,6 +116,17 @@ describe Builder::XmlMarkup do
     
     it { 
       is_expected.to produce_xml "<!-- This is a comment -->\n"
+    }
+  end
+  
+  describe '#instruct!' do
+    # indent required for some reason (see builder source)
+    let(:options) { {indent: 1}}
+    
+    subject { builder.instruct! :xml, version: '1.0', encoding: 'UTF-8' }
+    
+    it { 
+      is_expected.to produce_xml '<?xml version="1.0" encoding="UTF-8"?>'"\n"
     }
   end
   
