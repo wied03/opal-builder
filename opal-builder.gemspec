@@ -1,9 +1,10 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../builder/lib/builder/version', __FILE__)
+$: << File.expand_path('../builder/lib', __FILE__)
+require File.expand_path('../opal/opal/builder/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name         = 'opal-builder'
-  s.version      =  Builder::VERSION
+  s.version      =  Opal::OpalBuilder::VERSION
   s.author       = 'Brady Wied'
   s.email        = 'brady@bswtechconsulting.com'
   s.summary      = 'Builder for Opal'
