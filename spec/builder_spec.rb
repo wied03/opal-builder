@@ -1,6 +1,6 @@
 require 'builder'
 # TODO: Fold these into a single require
-require 'builder/xmlbase_patched'
+require 'opal/builder/xmlbase'
 
 describe Builder::XmlMarkup do
   let(:options) { {} }
