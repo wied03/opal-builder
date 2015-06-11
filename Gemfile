@@ -5,4 +5,4 @@ gemspec
 system 'git submodule update --init' unless Dir.glob('builder/**').any?
 gem 'opal', git: 'https://github.com/opal/opal.git'
 gem 'opal-rspec', path: 'opal-rspec'
-gem 'rake'
+gem 'rake', '~> 10'
