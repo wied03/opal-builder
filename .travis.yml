@@ -1,10 +1,23 @@
 language: ruby
+sudo: false
 
-rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1
+cache:
+  bundler: true
+
+matrix:
+  fast_finish: true
+
+  include:
+    - rvm: 1.9.3
+    - rvm: 2.0.0
+    - rvm: 2.1.0
+    - rvm: 2.2.3
+    - rvm: 2.2.3
+      gemfile: gemfiles/opal_master.gemfile
 
 before_install:
   - git submodule update --init
   - (cd opal-rspec; git submodule update --init)
+
+script:
+  - "bundle exec rake"
