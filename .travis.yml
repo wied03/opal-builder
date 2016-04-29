@@ -3,6 +3,8 @@ sudo: false
 
 cache:
   bundler: true
+  directories:
+    - node_modules
 
 matrix:
   fast_finish: true
@@ -15,6 +17,10 @@ matrix:
 
 before_install:
   - git submodule update --init
+  # New ppal-rspec needs new Phantom that Travis doesn't have
+  - npm install phantomjs-prebuilt
+  - "export PATH=`pwd`/node_modules/phantomjs-prebuilt/bin:$PATH"
+  - phantomjs -v
 
 before_script:
   - "bundle exec ruby util/git_modules.rb"
