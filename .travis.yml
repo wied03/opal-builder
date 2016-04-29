@@ -8,21 +8,16 @@ matrix:
   fast_finish: true
 
   include:
-    - rvm: 2.1.0
-    - rvm: 2.2.3
     - rvm: 2.2.4
+      gemfile: gemfiles/opal_0.10.gemfile
     - rvm: 2.2.4
-      gemfile: gemfiles/opal_master.gemfile
-    - rvm: 2.2.4
-      gemfile: gemfiles/opal-0.8.gemfile
-    - rvm: 2.2.4
-      gemfile: gemfiles/opal-0.9-stable.gemfile
-
-  allow_failures:
-    - gemfile: gemfiles/opal_master.gemfile
+      gemfile: gemfiles/opal_0.9.gemfile
 
 before_install:
   - git submodule update --init
+
+before_script:
+  - "bundle exec ruby util/git_modules.rb"
 
 script:
   - "bundle exec rake"

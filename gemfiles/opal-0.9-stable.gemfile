@@ -1,8 +1,0 @@
-source 'https://rubygems.org'
-gemspec path: '../'
-
-# Only run this if we don't have them
-system 'git submodule update --init' unless Dir.glob('builder/**').any?
-
-gem 'opal-rspec'
-gem 'opal', git: 'https://github.com/opal/opal.git', branch: '0-9-stable'
