@@ -1,6 +1,9 @@
 # opal-builder
 
 [![Build Status](http://img.shields.io/travis/wied03/opal-builder/master.svg?style=flat)](http://travis-ci.org/wied03/opal-builder)
+[![Quality](http://img.shields.io/codeclimate/github/wied03/opal-builder.svg?style=flat-square)](https://codeclimate.com/github/wied03/opal-builder)
+[![Version](http://img.shields.io/gem/v/opal-builder.svg?style=flat-square)](https://rubygems.org/gems/opal-builder)
+
 
 An attempt at making the builder XML gem work with Opal
 
