@@ -12,5 +12,5 @@ is_opal_09 = Opal::VERSION.include?('0.9')
 if is_opal_09
   Opal::Processor.stub_file STUB_FILE
 else
-  Opal::Config.stub_file STUB_FILE
+  Opal::Config.stubbed_files << STUB_FILE
 end
