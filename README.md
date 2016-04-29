@@ -5,7 +5,7 @@
 [![Version](http://img.shields.io/gem/v/opal-builder.svg?style=flat-square)](https://rubygems.org/gems/opal-builder)
 
 
-An attempt at making the builder XML gem work with Opal
+An attempt at making the [builder](https://github.com/strelokhalfer/builder) XML gem work with Opal
 
 ## Usage
 
